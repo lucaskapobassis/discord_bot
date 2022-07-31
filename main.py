@@ -1,18 +1,30 @@
 import configparser
+from decouple import config
+import datetime
+import discord
+import os
 
-config = configparser.ConfigParser()
-config.read("config.ini")
+from discord.ext import commands
 
-rbxInfo = config["roblox"]
-discordInfo = config["bot"]
+token = config("discord_token")
+dskey = config("ds_key")
+dsprefix = config("ds_prefix")
+dsuniverse = config("ds_universe")
+dstoken = config("ds_token")
 
-# Roblox Config
-dsKey = rbxInfo["ds_key"]
-dsPrefix = rbxInfo["ds_prefix"]
-dsUniverse = rbxInfo["ds_universe"]
-dsToken = rbxInfo["ds_token"]
-# Discord Config
-botToken = discordInfo["token"]
-botPrefix = discordInfo["prefix"]
+client = commands.Bot(command_prefix = "!")
+client.remove_command("help")
 
-print(botToken)
+@client.event
+async def on_ready():
+    print('Logged in as {0.user}'.format(client))
+
+@client.command()
+async def ping(ctx):
+    await ctx.send(f'**{(round(client.latency * 1000)/2)+0.1}ms** ping to Discord!')
+
+@client.command()
+async def membercount(ctx):
+    await ctx.send(f'**{ctx.message.guild.member_count}** members!')
+
+client.run(token)
