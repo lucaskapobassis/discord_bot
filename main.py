@@ -84,7 +84,6 @@ async def profile(ctx, user: str):
         userId = 0
         userName = 'Player'
 
-        # Fetch User ID from name
         try:
             userId =  requests.get(f'https://api.roblox.com/users/get-by-username?username={user}').json()["Id"]
         except:
@@ -94,7 +93,6 @@ async def profile(ctx, user: str):
     
         # Fetch true Username (Correct capitalization)
         try:
-            # Could change this to displayName
             userName =  requests.get(f'https://users.roblox.com/v1/users/{userId}').json()["name"]
         except:
             em = discord.Embed(title = 'Error', description = 'Something went wrong on our end!', color = 0xED4245)
@@ -111,7 +109,6 @@ async def profile(ctx, user: str):
 
         playerData = userData["Data"]
         
-
         em = discord.Embed(title = f'{userName}', description = 'Player Statistics', color = 0x0099E1, url = "https://www.roblox.com/users/"+str(userId)+"/profile")
 
         brokenCount = playerData["BoardStats"]["Fireworks Broken"]
@@ -130,6 +127,9 @@ async def profile(ctx, user: str):
         totalGems = human_format(totalGems)
         em.add_field(name = "Total Gems", value = f"{totalGems}", inline=True)
     
+        headshot = "https://www.roblox.com/headshot-thumbnail/image?userId=" + str(userId) + "&width=420&height=420&format=png"
+        em.set_thumbnail(url = headshot)
+
         await ctx.reply(embed = em)
     except:
         em = discord.Embed(title = 'Error', description = 'That user hasnt played!', color = 0xED4245)
