@@ -90,8 +90,7 @@ async def profile(ctx, user: str):
             em = discord.Embed(title = 'Error', description = 'That user does not exist!', color = 0xED4245)
             await ctx.reply(embed = em)
             return
-    
-        # Fetch true Username (Correct capitalization)
+            
         try:
             userName =  requests.get(f'https://users.roblox.com/v1/users/{userId}').json()["name"]
         except:
