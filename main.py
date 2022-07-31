@@ -15,6 +15,11 @@ dstoken = config("ds_token")
 groupid = config("group_id")
 groupname = config("group_name")
 
+print(dskey)
+print(dsprefix)
+print(dsuniverse)
+print(dstoken)
+
 client = commands.Bot(command_prefix = "!")
 client.remove_command("help")
 
@@ -79,7 +84,7 @@ def human_format(num):
 
 @client.command()
 async def profile(ctx, user: str):
-
+    try:
         userId = 0
         userName = 'Player'
 
@@ -125,11 +130,14 @@ async def profile(ctx, user: str):
         totalGems = human_format(totalGems)
         em.add_field(name = "Total Gems", value = f"{totalGems}", inline=True)
     
-        #headshot = "https://www.roblox.com/headshot-thumbnail/image?userId=" + str(userId) + "&width=420&height=420&format=png"
-        #em.set_thumbnail(url = headshot)
+        headshot = "https://www.roblox.com/headshot-thumbnail/image?userId=" + str(userId) + "&width=420&height=420&format=png"
+        em.set_thumbnail(url = headshot)
 
         await ctx.reply(embed = em)
-
+    except:
+        em = discord.Embed(title = 'Error', description = 'That user hasnt played!', color = 0xED4245)
+        await ctx.reply(embed = em)
+        return
 
 @client.group(invoke_without_command=True)
 async def help(ctx):
