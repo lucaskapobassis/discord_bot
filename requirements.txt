@@ -1,0 +1,3 @@
+decouple-python
+discord.py
+requests
