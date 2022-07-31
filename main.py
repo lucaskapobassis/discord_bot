@@ -15,11 +15,6 @@ dstoken = config("ds_token")
 groupid = config("group_id")
 groupname = config("group_name")
 
-print(dskey)
-print(dsprefix)
-print(dsuniverse)
-print(dstoken)
-
 client = commands.Bot(command_prefix = "!")
 client.remove_command("help")
 
