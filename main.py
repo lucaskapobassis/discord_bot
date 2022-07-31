@@ -134,4 +134,11 @@ async def profile(ctx, user: str):
         await ctx.reply(embed = em)
         return
 
+@client.group(invoke_without_command=True)
+async def help(ctx):
+    em = discord.Embed(title = 'Bot Commands', description = 'Here are some commands you can use:', color = 0x0099E1)
+    em.add_field(name = "Games", value = "!visits, !favs, !group, !profile [username]")#, !claim [code]")
+    em.add_field(name = "Bot Stuff", value = "!ping, !membercount")
+    await ctx.send(embed = em)
+
 client.run(token)
