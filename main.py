@@ -58,4 +58,82 @@ async def group(ctx):
     em.add_field(name = groupname, value = f"👑 {mems} Members!")
     await ctx.send(embed = em)
 
+
+baseUrl = 'https://apis.roblox.com/datastores/v1/universes/'
+objectsUrl = baseUrl+dsuniverse+'/standard-datastores/datastore/entries/entry'
+listObjectsUrl = baseUrl+dsuniverse+'/standard-datastores/datastore/entries'
+def getData(userId: str):
+    playerToGet = dsprefix+str(userId)
+    payload = {'datastoreName': dskey, 'entryKey': playerToGet}
+
+    r = requests.get('https://apis.roblox.com/datastores/v1/universes/'+dsuniverse+'/standard-datastores/datastore/entries/entry', params=payload, headers={'x-api-key': dstoken}).json()
+
+    return r
+
+def human_format(num):
+    num = float('{:.3g}'.format(num))
+    magnitude = 0
+    while abs(num) >= 1000:
+        magnitude += 1
+        num /= 1000.0
+    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['','k','m','b','t','qd','qn','sx','sp','o','n','d','ud','dd', 'td', 'qtd', 'qnd', 'sxd', 'spd', 'od', 'nd', 'vg', 'uvg', 'dvg', 'tvg', 'qtvg', 'qnvg', 'sxvg', 'spvg', 'ovg', 'nvg', 'tt', 'utt', 'dtt', 'g', 'ttn', 'qttn', 'qntn', 'sxtn', 'sptn','otn','ntn','cn'][magnitude])
+
+@client.command()
+async def profile(ctx, user: str):
+    try:
+        userId = 0
+        userName = 'Player'
+
+        # Fetch User ID from name
+        try:
+            userId =  requests.get(f'https://api.roblox.com/users/get-by-username?username={user}').json()["Id"]
+        except:
+            em = discord.Embed(title = 'Error', description = 'That user does not exist!', color = 0xED4245)
+            await ctx.reply(embed = em)
+            return
+    
+        # Fetch true Username (Correct capitalization)
+        try:
+            # Could change this to displayName
+            userName =  requests.get(f'https://users.roblox.com/v1/users/{userId}').json()["name"]
+        except:
+            em = discord.Embed(title = 'Error', description = 'Something went wrong on our end!', color = 0xED4245)
+            await ctx.reply(embed = em)
+            return
+
+        userData = {}
+        try:
+            userData = getData(userId)
+        except:
+            em = discord.Embed(title = 'Error', description = 'That user hasnt played!', color = 0xED4245)
+            await ctx.reply(embed = em)
+            return
+
+        playerData = userData["Data"]
+        
+
+        em = discord.Embed(title = f'{userName}', description = 'Player Statistics', color = 0x0099E1, url = "https://www.roblox.com/users/"+str(userId)+"/profile")
+
+        brokenCount = playerData["BoardStats"]["Fireworks Broken"]
+        brokenCount = human_format(brokenCount)
+        em.add_field(name = "Fireworks", value = f"{brokenCount}", inline=True)
+        eggCount = playerData["BoardStats"]["Eggs Hatched"]
+        eggCount = human_format(eggCount)
+        em.add_field(name = "Eggs", value = f"{eggCount}", inline=True)
+        timePlayed = playerData["BoardStats"]["Time Played"]
+        timePlayed = datetime.timedelta(seconds=timePlayed)
+        em.add_field(name = "Time Played", value = f"{timePlayed}", inline=True)
+        totalCoins = playerData["BoardStats"]["Total Coins"]
+        totalCoins = human_format(totalCoins)
+        em.add_field(name = "Total Coins", value = f"{totalCoins}", inline=False)
+        totalGems = playerData["BoardStats"]["Total Gems"]
+        totalGems = human_format(totalGems)
+        em.add_field(name = "Total Gems", value = f"{totalGems}", inline=True)
+    
+        await ctx.reply(embed = em)
+    except:
+        em = discord.Embed(title = 'Error', description = 'That user hasnt played!', color = 0xED4245)
+        await ctx.reply(embed = em)
+        return
+
 client.run(token)
