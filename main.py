@@ -79,7 +79,7 @@ def human_format(num):
 
 @client.command()
 async def profile(ctx, user: str):
-    try:
+
         userId = 0
         userName = 'Player'
 
@@ -129,10 +129,7 @@ async def profile(ctx, user: str):
         #em.set_thumbnail(url = headshot)
 
         await ctx.reply(embed = em)
-    except:
-        em = discord.Embed(title = 'Error', description = 'That user hasnt played!', color = 0xED4245)
-        await ctx.reply(embed = em)
-        return
+
 
 @client.group(invoke_without_command=True)
 async def help(ctx):
