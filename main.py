@@ -11,7 +11,6 @@ dskey = config("ds_key")
 dsprefix = config("ds_prefix")
 dsuniverse = config("ds_universe")
 dstoken = config("ds_token")
-
 groupid = config("group_id")
 groupname = config("group_name")
 
@@ -64,9 +63,7 @@ listObjectsUrl = baseUrl+dsuniverse+'/standard-datastores/datastore/entries'
 def getData(userId: str):
     playerToGet = dsprefix+str(userId)
     payload = {'datastoreName': dskey, 'entryKey': playerToGet}
-
     r = requests.get('https://apis.roblox.com/datastores/v1/universes/'+dsuniverse+'/standard-datastores/datastore/entries/entry', params=payload, headers={'x-api-key': dstoken}).json()
-
     return r
 
 def human_format(num):
