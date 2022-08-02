@@ -13,6 +13,10 @@ dsuniverse = config("ds_universe")
 dstoken = config("ds_token")
 groupid = config("group_id")
 groupname = config("group_name")
+test_enabled = config("test_enabled", "False") == "True"
+
+if test_enabled == True:
+    token = config("test_token")
 
 client = commands.Bot(command_prefix = "!")
 client.remove_command("help")
