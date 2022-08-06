@@ -18,7 +18,7 @@ test_enabled = config("test_enabled", "False") == "True"
 if test_enabled == True:
     token = config("test_token")
 
-client = commands.Bot(command_prefix = "!")
+client = commands.Bot(command_prefix = "!", activity = discord.Game(name="!help"))
 client.remove_command("help")
 
 gamename = requests.get('https://games.roblox.com/v1/games?universeIds='+dsuniverse).json()["data"][0]["name"]
