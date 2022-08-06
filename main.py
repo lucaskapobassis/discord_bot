@@ -60,7 +60,6 @@ async def group(ctx):
     em.add_field(name = groupname, value = f"👑 {mems} Members!")
     await ctx.send(embed = em)
 
-
 baseUrl = 'https://apis.roblox.com/datastores/v1/universes/'
 objectsUrl = baseUrl+dsuniverse+'/standard-datastores/datastore/entries/entry'
 listObjectsUrl = baseUrl+dsuniverse+'/standard-datastores/datastore/entries'
