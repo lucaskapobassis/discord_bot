@@ -118,6 +118,9 @@ async def profile(ctx, user: str):
         timePlayed = playerData["BoardStats"]["Time Played"]
         timePlayed = datetime.timedelta(seconds=timePlayed)
         em.add_field(name = "Time Played", value = f"{timePlayed}", inline=True)
+        techCoins = playerData["BoardStats"]["Total Tech Coins"]
+        techCoins = human_format(techCoins)
+        em.add_field(name = "Total Tech Coins", value = f"{techCoins}", inline=False)
         totalCoins = playerData["BoardStats"]["Total Coins"]
         totalCoins = human_format(totalCoins)
         em.add_field(name = "Total Coins", value = f"{totalCoins}", inline=False)
