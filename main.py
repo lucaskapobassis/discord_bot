@@ -118,7 +118,7 @@ async def profile(ctx, user: str):
         timePlayed = playerData["BoardStats"]["Time Played"]
         timePlayed = datetime.timedelta(seconds=timePlayed)
         em.add_field(name = "Time Played", value = f"{timePlayed}", inline=True)
-        techCoins = playerData["BoardStats"]["Total Tech Coins"]
+        techCoins = playerData["BoardStats"]["Total Tech Coins"] or 0
         techCoins = human_format(techCoins)
         em.add_field(name = "Total Tech Coins", value = f"{techCoins}", inline=False)
         totalCoins = playerData["BoardStats"]["Total Coins"]
@@ -127,6 +127,7 @@ async def profile(ctx, user: str):
         totalGems = playerData["BoardStats"]["Total Gems"]
         totalGems = human_format(totalGems)
         em.add_field(name = "Total Gems", value = f"{totalGems}", inline=True)
+        em.set_footer(text=f"UserId: {str(userId)}")
     
         headshot = "https://www.roblox.com/headshot-thumbnail/image?userId=" + str(userId) + "&width=420&height=420&format=png"
         em.set_thumbnail(url = headshot)
