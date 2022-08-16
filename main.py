@@ -5,6 +5,7 @@ import discord
 import os
 
 from discord.ext import commands
+from discord.ext.commands import cooldown
 
 token = config("discord_token")
 dskey = config("ds_key")
@@ -34,6 +35,11 @@ async def ping(ctx):
 @client.command()
 async def membercount(ctx):
     await ctx.send(f'**{ctx.message.guild.member_count}** members!')
+
+@client.command()
+async def invite(ctx):
+    em = discord.Embed(title = 'Click to invite!', url = "https://digging.games/bot", color = 0x0099E1, description = "Click above to invite the bot to your own server!")
+    await ctx.send(embed = em)
 
 @client.command()
 async def visits(ctx):
@@ -78,6 +84,7 @@ def human_format(num):
     return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['','k','m','b','t','qd','qn','sx','sp','o','n','d','ud','dd', 'td', 'qtd', 'qnd', 'sxd', 'spd', 'od', 'nd', 'vg', 'uvg', 'dvg', 'tvg', 'qtvg', 'qnvg', 'sxvg', 'spvg', 'ovg', 'nvg', 'tt', 'utt', 'dtt', 'g', 'ttn', 'qttn', 'qntn', 'sxtn', 'sptn','otn','ntn','cn'][magnitude])
 
 @client.command()
+@commands.cooldown(1, 20, commands.BucketType.user)
 async def profile(ctx, user: str):
     try:
         userId = 0
@@ -138,11 +145,23 @@ async def profile(ctx, user: str):
         await ctx.reply(embed = em)
         return
 
+# Catch Errors
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown): # or discord.ext.commands.errors.CommandNotFound as you wrote
+        em = discord.Embed(title = 'Slow it down!', description = f'Try again in {round(error.retry_after, 1)} seconds!', color = 0xED4245)
+        await ctx.reply(embed = em)
+        return
+
+    if isinstance(error, commands.CommandNotFound): # or discord.ext.commands.errors.CommandNotFound as you wrote
+        em = discord.Embed(title = 'Error', description = 'Unknown command!', color = 0xED4245)
+        await ctx.reply(embed = em)
+
 @client.group(invoke_without_command=True)
 async def help(ctx):
     em = discord.Embed(title = 'Bot Commands', description = 'Here are some commands you can use:', color = 0x0099E1)
     em.add_field(name = "Games", value = "!visits, !favs, !group, !profile [username]")#, !claim [code]")
-    em.add_field(name = "Bot Stuff", value = "!ping, !membercount")
+    em.add_field(name = "Bot Stuff", value = "!ping, !membercount !invite")
     await ctx.send(embed = em)
 
 client.run(token)
