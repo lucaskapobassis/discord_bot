@@ -131,9 +131,9 @@ async def profile(ctx, user: str):
         totalCoins = playerData["BoardStats"]["Total Coins"]
         totalCoins = human_format(totalCoins)
         em.add_field(name = "Total Coins", value = f"{totalCoins}", inline=False)
-        totalGems = playerData["BoardStats"]["Total Gems"]
+        totalGems = playerData["Statistics"]["Gems"] # Changed to Gems after banks were added
         totalGems = human_format(totalGems)
-        em.add_field(name = "Total Gems", value = f"{totalGems}", inline=True)
+        em.add_field(name = "Gems", value = f"{totalGems}", inline=True)
         em.set_footer(text=f"UserId: {str(userId)}")
     
         headshot = "https://www.roblox.com/headshot-thumbnail/image?userId=" + str(userId) + "&width=420&height=420&format=png"
