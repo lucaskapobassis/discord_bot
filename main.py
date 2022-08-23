@@ -67,8 +67,8 @@ async def group(ctx):
     await ctx.send(embed = em)
 
 #Exclusive to Firework Simulator
-@client.command(aliases=['valuelist', 'value', 'values'])
-async def vl(ctx):
+@client.command()
+async def values(ctx):
     em = discord.Embed(title = 'Firework Sim Value List', description = 'You can find the value list [here](https://docs.google.com/spreadsheets/d/1-33vutLr3aBvToV8BJr1Fr8gZz2aDznAI7BkDneqV2E/edit#gid=0)')
     await ct.send(embed = em)
 
