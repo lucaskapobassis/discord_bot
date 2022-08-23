@@ -67,10 +67,10 @@ async def group(ctx):
     await ctx.send(embed = em)
 
 #Exclusive to Firework Simulator
-@client.command()
+@client.command(aliases=['vl', 'valuelist'])
 async def values(ctx):
     em = discord.Embed(title = 'Firework Sim Value List', description = 'You can find the value list [here](https://docs.google.com/spreadsheets/d/1-33vutLr3aBvToV8BJr1Fr8gZz2aDznAI7BkDneqV2E/edit#gid=0)')
-    await ct.send(embed = em)
+    await ctx.send(embed = em)
 
 baseUrl = 'https://apis.roblox.com/datastores/v1/universes/'
 objectsUrl = baseUrl+dsuniverse+'/standard-datastores/datastore/entries/entry'
