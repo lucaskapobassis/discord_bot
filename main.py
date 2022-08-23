@@ -66,6 +66,12 @@ async def group(ctx):
     em.add_field(name = groupname, value = f"👑 {mems} Members!")
     await ctx.send(embed = em)
 
+#Exclusive to Firework Simulator
+@client.command(aliases=['valuelist', 'value', 'values'])
+async def vl(ctx):
+    em = discord.Embed(title = 'Firework Sim Value List', description = 'You can find the value list [here](https://docs.google.com/spreadsheets/d/1-33vutLr3aBvToV8BJr1Fr8gZz2aDznAI7BkDneqV2E/edit#gid=0)')
+    await ct.send(embed = em)
+
 baseUrl = 'https://apis.roblox.com/datastores/v1/universes/'
 objectsUrl = baseUrl+dsuniverse+'/standard-datastores/datastore/entries/entry'
 listObjectsUrl = baseUrl+dsuniverse+'/standard-datastores/datastore/entries'
@@ -160,7 +166,7 @@ async def on_command_error(ctx, error):
 @client.group(invoke_without_command=True)
 async def help(ctx):
     em = discord.Embed(title = 'Bot Commands', description = 'Here are some commands you can use:', color = 0x0099E1)
-    em.add_field(name = "Games", value = "!visits, !favs, !group, !profile [username]")#, !claim [code]")
+    em.add_field(name = "Games", value = "!values, !visits, !favs, !group, !profile [username]")#, !claim [code]")
     em.add_field(name = "Bot Stuff", value = "!ping, !membercount !invite")
     await ctx.send(embed = em)
 
